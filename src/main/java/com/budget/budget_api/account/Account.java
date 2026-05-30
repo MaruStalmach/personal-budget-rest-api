@@ -1,13 +1,23 @@
 package com.budget.budget_api.account;
 
+import com.budget.budget_api.transaction.Transaction;
+import com.budget.budget_api.transaction.TransactionType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "accounts")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,24 +31,28 @@ public class Account {
     @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal balance = BigDecimal.ZERO;
 
-    public String getName() {
-        return name;
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> transactions = new ArrayList<>();
+
+    public void applyTransaction(TransactionType type, BigDecimal amount) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException();
+        }
+        if (type == TransactionType.INCOME) {
+            this.balance = this.balance.add(amount);
+        } else {
+            this.balance = this.balance.subtract(amount);
+        }
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
-
-    public Long getId() {
-        return id;
+    public void revertTransaction(TransactionType type, BigDecimal amount) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException();
+        }
+        if (type == TransactionType.INCOME) {
+            this.balance = this.balance.subtract(amount);
+        } else {
+            this.balance = this.balance.add(amount);
+        }
     }
 }
