@@ -2,6 +2,7 @@ package com.budget.budget_api.account;
 
 import com.budget.budget_api.account.dto.AccountRequest;
 import com.budget.budget_api.account.dto.AccountResponse;
+
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -26,9 +27,10 @@ public class AccountService {
         return accountList.stream().map(this::mapToResponse).toList();
     }
 
-    public Account getAccountById(Long id) {
-        return accountRepository.findById(id)
+    public AccountResponse getAccountById(Long id) {
+        Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("an acount of a given id does not exist"));
+        return mapToResponse(account);
     }
 
     public AccountResponse createNewAccount(AccountRequest request) {
@@ -42,7 +44,9 @@ public class AccountService {
     }
 
     public void deleteAccountById(Long id) {
-        Account account = getAccountById(id);
+        Account account = accountRepository.findById(id)
+                .orElseThrow(RuntimeException::new);
+
         accountRepository.delete(account);
     }
 
