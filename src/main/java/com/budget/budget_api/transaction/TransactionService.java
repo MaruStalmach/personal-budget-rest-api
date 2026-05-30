@@ -60,11 +60,7 @@ public class TransactionService {
         newTransaction.setAmount(transactionRequest.amount());
 
         newTransaction.setType(transactionRequest.type());
-        if (transactionRequest.type() == INCOME) {
-            account.setBalance(account.getBalance().add(transactionRequest.amount()));
-        } else {
-            account.setBalance(account.getBalance().subtract(transactionRequest.amount()));
-        }
+        account.applyTransaction(transactionRequest.type(), transactionRequest.amount());
 
         newTransaction.setCategory(transactionRequest.category());
         newTransaction.setDescription(transactionRequest.description());
@@ -76,5 +72,17 @@ public class TransactionService {
         return mapToResponse(savedTransaction);
     }
 
+    @Transactional
+    public void deleteTransaction(Long id) {
+        Transaction transaction = transactionRepository.findById(id)
+                .orElseThrow(RuntimeException::new);
+
+        Account account = transaction.getAccount();
+        account.revertTransaction(transaction.getType(), transaction.getAmount());
+
+        accountRepository.save(account);
+        transactionRepository.delete(transaction);
+
+    }
 
 }
