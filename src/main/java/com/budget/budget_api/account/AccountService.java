@@ -4,6 +4,7 @@ import com.budget.budget_api.account.dto.AccountRequest;
 import com.budget.budget_api.account.dto.AccountResponse;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -33,6 +34,7 @@ public class AccountService {
     public AccountResponse createNewAccount(AccountRequest request) {
         Account newAccount = new Account();
         newAccount.setName(request.name());
+        newAccount.setBalance(BigDecimal.ZERO);
 
         Account savedAccount = accountRepository.save(newAccount);
 
