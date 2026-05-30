@@ -1,12 +1,12 @@
 package com.budget.budget_api.transaction;
 
 import com.budget.budget_api.account.Account;
+import com.budget.budget_api.transaction.dto.TransactionRequest;
 import com.budget.budget_api.transaction.dto.TransactionResponse;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -30,6 +30,12 @@ public class TransactionController {
     @GetMapping("/{id}")
     public ResponseEntity<TransactionResponse> getTransactionById(@PathVariable Long id) {
         return ResponseEntity.ok(transactionService.getTransactionById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<TransactionResponse> createTransaction(@Valid @RequestBody TransactionRequest request) {
+        TransactionResponse savedTransaction = transactionService.createNewTransaction(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedTransaction);
     }
 
 }
