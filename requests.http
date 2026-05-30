@@ -1,0 +1,22 @@
+### test acc
+POST http://localhost:8080/accounts
+Content-Type: application/json
+
+{
+    "name": "test_account"
+}
+
+### test transaction
+POST http://localhost:8080/transactions
+Content-Type: application/json
+
+{
+    "accountId": 1,
+    "amount": 420.00,
+    "type": "INCOME",
+    "category": "monthly salary",
+    "description": "payment for the month May 2026"
+}
+
+###
+GET http://localhost:8080/accounts/1
