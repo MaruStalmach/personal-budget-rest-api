@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.budget.budget_api.transaction.TransactionType.INCOME;
-
 @Service
 public class TransactionService {
 
@@ -46,6 +44,14 @@ public class TransactionService {
         Transaction transaction = transactionRepository.findById(id)
                 .orElseThrow(RuntimeException::new);
         return mapToResponse(transaction);
+    }
+
+    public List<TransactionResponse> getTransactionsByAccountId(Long accountId) {
+        //TODO: handle missing acc
+
+        List<Transaction> transactions = transactionRepository.findByAccountId(accountId);
+
+        return transactions.stream().map(this::mapToResponse).toList();
     }
 
     @Transactional //for rollback
