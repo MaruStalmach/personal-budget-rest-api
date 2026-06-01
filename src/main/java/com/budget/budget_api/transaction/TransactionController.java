@@ -1,6 +1,5 @@
 package com.budget.budget_api.transaction;
 
-import com.budget.budget_api.account.Account;
 import com.budget.budget_api.transaction.dto.TransactionRequest;
 import com.budget.budget_api.transaction.dto.TransactionResponse;
 import jakarta.validation.Valid;
@@ -8,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -20,9 +20,13 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
+    //TODO: check mapping of the params ?
     @GetMapping
-    public ResponseEntity<List<TransactionResponse>> getAllTransactions() {
-        return ResponseEntity.ok(transactionService.getAllTransactions());
+    public ResponseEntity<List<TransactionResponse>> getAllTransactions(
+            @RequestParam(required = false) LocalDateTime from,
+            @RequestParam(required = false) LocalDateTime to,
+            @RequestParam(required = false) String category) {
+        return ResponseEntity.ok(transactionService.getFilteredTransactions(from, to, category));
     }
 
     @GetMapping("/{id}")

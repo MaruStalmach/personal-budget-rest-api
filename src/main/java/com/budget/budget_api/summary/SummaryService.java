@@ -1,19 +1,15 @@
 package com.budget.budget_api.summary;
 
 import com.budget.budget_api.account.AccountRepository;
-import com.budget.budget_api.account.AccountService;
 import com.budget.budget_api.common.exception.ResourceNotFoundException;
 import com.budget.budget_api.summary.dto.SummaryResponse;
-import com.budget.budget_api.transaction.Transaction;
 import com.budget.budget_api.transaction.TransactionRepository;
 import com.budget.budget_api.transaction.TransactionType;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,7 +28,7 @@ public class SummaryService {
     public SummaryResponse getSummary(Long accountId) {
 
         if (!accountRepository.existsById(accountId)) {
-            throw new ResourceNotFoundException("account with a give id cannot be found");
+            throw new ResourceNotFoundException("account with a given id cannot be found");
         }
 
         BigDecimal totalIncome = getSafeSum(accountId, TransactionType.INCOME);

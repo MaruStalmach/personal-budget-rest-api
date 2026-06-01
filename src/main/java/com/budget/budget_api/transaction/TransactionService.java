@@ -55,6 +55,11 @@ public class TransactionService {
         return transactions.stream().map(this::mapToResponse).toList();
     }
 
+    public List<TransactionResponse> getFilteredTransactions(LocalDateTime from, LocalDateTime to, String category) {
+        List<Transaction> transactions = transactionRepository.findFilteredTransactions(from, to, category);
+        return transactions.stream().map(this::mapToResponse).toList();
+    }
+
     @Transactional //for rollback
     public TransactionResponse createNewTransaction(TransactionRequest transactionRequest) {
 
