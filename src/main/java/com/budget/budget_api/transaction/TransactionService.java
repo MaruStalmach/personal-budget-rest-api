@@ -2,6 +2,7 @@ package com.budget.budget_api.transaction;
 
 import com.budget.budget_api.account.Account;
 import com.budget.budget_api.account.AccountRepository;
+import com.budget.budget_api.common.exception.ResourceNotFoundException;
 import com.budget.budget_api.transaction.dto.TransactionRequest;
 import com.budget.budget_api.transaction.dto.TransactionResponse;
 import jakarta.transaction.Transactional;
@@ -42,7 +43,7 @@ public class TransactionService {
 
     public TransactionResponse getTransactionById(Long id) {
         Transaction transaction = transactionRepository.findById(id)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new ResourceNotFoundException("transaction with a given id not found"));
         return mapToResponse(transaction);
     }
 
@@ -58,7 +59,7 @@ public class TransactionService {
     public TransactionResponse createNewTransaction(TransactionRequest transactionRequest) {
 
         Account account = accountRepository.findById(transactionRequest.accountId())
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new ResourceNotFoundException("account with a given id not found"));
         Transaction newTransaction = new Transaction();
 
 
@@ -81,7 +82,7 @@ public class TransactionService {
     @Transactional
     public void deleteTransaction(Long id) {
         Transaction transaction = transactionRepository.findById(id)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new ResourceNotFoundException("transaction with a given id not found"));
 
         Account account = transaction.getAccount();
         account.revertTransaction(transaction.getType(), transaction.getAmount());

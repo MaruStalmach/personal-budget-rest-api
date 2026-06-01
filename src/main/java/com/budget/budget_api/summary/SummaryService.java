@@ -2,15 +2,18 @@ package com.budget.budget_api.summary;
 
 import com.budget.budget_api.account.AccountRepository;
 import com.budget.budget_api.account.AccountService;
+import com.budget.budget_api.common.exception.ResourceNotFoundException;
 import com.budget.budget_api.summary.dto.SummaryResponse;
 import com.budget.budget_api.transaction.Transaction;
 import com.budget.budget_api.transaction.TransactionRepository;
 import com.budget.budget_api.transaction.TransactionType;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,28 +30,62 @@ public class SummaryService {
     }
 
     public SummaryResponse getSummary(Long accountId) {
-        //TODO: add error handling for missing acc
-        List<Transaction> transactions = transactionRepository.findByAccountId(accountId);
 
-        //calculates total income for a specified account
-        BigDecimal totalIncome = transactions.stream()
-                .filter(transaction -> transaction.getType() == TransactionType.INCOME)
-                .map(Transaction::getAmount)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        if (!accountRepository.existsById(accountId)) {
+            throw new ResourceNotFoundException("account with a give id cannot be found");
+        }
 
-        //calculates total expenses for a specified account
-        BigDecimal totalExpenses = transactions.stream()
-                .filter(transaction -> transaction.getType() == TransactionType.EXPENSE)
-                .map(Transaction::getAmount)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal totalIncome = getSafeSum(accountId, TransactionType.INCOME);
+        BigDecimal totalExpense = getSafeSum(accountId, TransactionType.EXPENSE);
 
-        //calculates total expenses per category present
-        Map<String, BigDecimal> expensesByCategory = transactions.stream()
-                .filter(transaction -> transaction.getType() == TransactionType.EXPENSE)
-                .collect(Collectors.groupingBy(Transaction::getCategory,
-                        Collectors.reducing(BigDecimal.ZERO, Transaction::getAmount, BigDecimal::add)
-                ));
+        Map<String, BigDecimal> expensesByCategory = getPerCategoryBreakdown(accountId, TransactionType.EXPENSE);
 
-        return new SummaryResponse(totalIncome, totalExpenses, expensesByCategory);
+        return new SummaryResponse(totalIncome, totalExpense, expensesByCategory);
     }
+
+    private BigDecimal getSafeSum(Long accountId, TransactionType transactionType) {
+        BigDecimal sum = transactionRepository.sumAmountByAccountIdAndType(accountId, transactionType);
+
+        if (sum != null) {
+            return sum;
+        }
+        return BigDecimal.ZERO;
+    }
+
+    private Map<String, BigDecimal> getPerCategoryBreakdown(Long accountId, TransactionType transactionType) {
+        List<Object[]> result = transactionRepository.sumAmountByCategory(accountId, transactionType);
+        return result.stream().collect(
+                Collectors.toMap(
+                        row -> (String) row[0],
+                        row -> (BigDecimal) row[1]
+                )
+        );
+    }
+
+
+
+//        //TODO: add error handling for missing acc
+//        List<Transaction> transactions = transactionRepository.findByAccountId(accountId);
+//
+//        //calculates total income for a specified account
+//        BigDecimal totalIncome = transactions.stream()
+//                .filter(transaction -> transaction.getType() == TransactionType.INCOME)
+//                .map(Transaction::getAmount)
+//                .reduce(BigDecimal.ZERO, BigDecimal::add);
+//
+//        //calculates total expenses for a specified account
+//        BigDecimal totalExpenses = transactions.stream()
+//                .filter(transaction -> transaction.getType() == TransactionType.EXPENSE)
+//                .map(Transaction::getAmount)
+//                .reduce(BigDecimal.ZERO, BigDecimal::add);
+//
+//        //calculates total expenses per category present
+//        Map<String, BigDecimal> expensesByCategory = transactions.stream()
+//                .filter(transaction -> transaction.getType() == TransactionType.EXPENSE)
+//                .collect(Collectors.groupingBy(Transaction::getCategory,
+//                        Collectors.reducing(BigDecimal.ZERO, Transaction::getAmount, BigDecimal::add)
+//                ));
+//
+//        return new SummaryResponse(totalIncome, totalExpenses, expensesByCategory);
+//    }
 }

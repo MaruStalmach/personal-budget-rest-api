@@ -1,5 +1,6 @@
 package com.budget.budget_api.account;
 
+import com.budget.budget_api.common.exception.InvalidTransactionException;
 import com.budget.budget_api.transaction.Transaction;
 import com.budget.budget_api.transaction.TransactionType;
 import jakarta.persistence.*;
@@ -36,18 +37,19 @@ public class Account {
 
     public void applyTransaction(TransactionType type, BigDecimal amount) {
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException();
+            throw new InvalidTransactionException("transaction amount must be greater than 0");
         }
         if (type == TransactionType.INCOME) {
             this.balance = this.balance.add(amount);
         } else {
+            //TODO: handle case where balance is negative (to add or not to add)
             this.balance = this.balance.subtract(amount);
         }
     }
 
     public void revertTransaction(TransactionType type, BigDecimal amount) {
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException();
+            throw new InvalidTransactionException("transaction amount must be greater than 0");
         }
         if (type == TransactionType.INCOME) {
             this.balance = this.balance.subtract(amount);
