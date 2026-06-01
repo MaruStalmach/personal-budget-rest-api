@@ -3,6 +3,7 @@ package com.budget.budget_api.account;
 import com.budget.budget_api.account.dto.AccountRequest;
 import com.budget.budget_api.account.dto.AccountResponse;
 
+import com.budget.budget_api.common.exception.AccountHasTransactionsException;
 import com.budget.budget_api.common.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +49,9 @@ public class AccountService {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("account with a given id cannot be found"));
 
+        if (!account.getTransactions().isEmpty()) {
+            throw new AccountHasTransactionsException("cannot delete the account - transactions still exist");
+        }
         accountRepository.delete(account);
     }
 
