@@ -32,7 +32,7 @@ public class Account {
     @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal balance = BigDecimal.ZERO;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "account")
     private List<Transaction> transactions = new ArrayList<>();
 
     public void applyTransaction(TransactionType type, BigDecimal amount) {
