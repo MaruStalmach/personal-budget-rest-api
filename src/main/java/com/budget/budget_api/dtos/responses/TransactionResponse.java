@@ -1,6 +1,6 @@
-package com.budget.budget_api.transaction.dto;
+package com.budget.budget_api.dtos.responses;
 
-import com.budget.budget_api.transaction.TransactionType;
+import com.budget.budget_api.common.types.TransactionType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

@@ -1,7 +1,6 @@
-package com.budget.budget_api.transaction;
+package com.budget.budget_api.entities;
 
-import com.budget.budget_api.account.Account;
-
+import com.budget.budget_api.common.types.TransactionType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

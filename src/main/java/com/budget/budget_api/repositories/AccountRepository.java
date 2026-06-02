@@ -1,5 +1,6 @@
-package com.budget.budget_api.account;
+package com.budget.budget_api.repositories;
 
+import com.budget.budget_api.entities.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

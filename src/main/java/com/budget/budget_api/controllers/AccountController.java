@@ -1,7 +1,8 @@
-package com.budget.budget_api.account;
+package com.budget.budget_api.controllers;
 
-import com.budget.budget_api.account.dto.AccountRequest;
-import com.budget.budget_api.account.dto.AccountResponse;
+import com.budget.budget_api.services.AccountService;
+import com.budget.budget_api.dtos.requests.AccountRequest;
+import com.budget.budget_api.dtos.responses.AccountResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

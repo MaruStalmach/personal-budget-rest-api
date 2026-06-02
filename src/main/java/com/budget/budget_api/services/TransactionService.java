@@ -1,10 +1,12 @@
-package com.budget.budget_api.transaction;
+package com.budget.budget_api.services;
 
-import com.budget.budget_api.account.Account;
-import com.budget.budget_api.account.AccountRepository;
+import com.budget.budget_api.entities.Account;
+import com.budget.budget_api.repositories.AccountRepository;
 import com.budget.budget_api.common.exception.ResourceNotFoundException;
-import com.budget.budget_api.transaction.dto.TransactionRequest;
-import com.budget.budget_api.transaction.dto.TransactionResponse;
+import com.budget.budget_api.dtos.requests.TransactionRequest;
+import com.budget.budget_api.dtos.responses.TransactionResponse;
+import com.budget.budget_api.entities.Transaction;
+import com.budget.budget_api.repositories.TransactionRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 

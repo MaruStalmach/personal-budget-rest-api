@@ -1,10 +1,10 @@
-package com.budget.budget_api.summary;
+package com.budget.budget_api.services;
 
-import com.budget.budget_api.account.AccountRepository;
+import com.budget.budget_api.repositories.AccountRepository;
 import com.budget.budget_api.common.exception.ResourceNotFoundException;
-import com.budget.budget_api.summary.dto.SummaryResponse;
-import com.budget.budget_api.transaction.TransactionRepository;
-import com.budget.budget_api.transaction.TransactionType;
+import com.budget.budget_api.dtos.responses.SummaryResponse;
+import com.budget.budget_api.repositories.TransactionRepository;
+import com.budget.budget_api.common.types.TransactionType;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

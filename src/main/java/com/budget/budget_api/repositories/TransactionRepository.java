@@ -1,5 +1,7 @@
-package com.budget.budget_api.transaction;
+package com.budget.budget_api.repositories;
 
+import com.budget.budget_api.entities.Transaction;
+import com.budget.budget_api.common.types.TransactionType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

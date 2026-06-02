@@ -1,8 +1,7 @@
-package com.budget.budget_api.account;
+package com.budget.budget_api.entities;
 
 import com.budget.budget_api.common.exception.InvalidTransactionException;
-import com.budget.budget_api.transaction.Transaction;
-import com.budget.budget_api.transaction.TransactionType;
+import com.budget.budget_api.common.types.TransactionType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

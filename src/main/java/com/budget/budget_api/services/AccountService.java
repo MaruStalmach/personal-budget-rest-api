@@ -1,7 +1,9 @@
-package com.budget.budget_api.account;
+package com.budget.budget_api.services;
 
-import com.budget.budget_api.account.dto.AccountRequest;
-import com.budget.budget_api.account.dto.AccountResponse;
+import com.budget.budget_api.entities.Account;
+import com.budget.budget_api.repositories.AccountRepository;
+import com.budget.budget_api.dtos.requests.AccountRequest;
+import com.budget.budget_api.dtos.responses.AccountResponse;
 
 import com.budget.budget_api.common.exception.AccountHasTransactionsException;
 import com.budget.budget_api.common.exception.ResourceNotFoundException;

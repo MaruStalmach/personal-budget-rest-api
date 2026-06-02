@@ -1,4 +1,4 @@
-package com.budget.budget_api.account.dto;
+package com.budget.budget_api.dtos.responses;
 
 import java.math.BigDecimal;
 

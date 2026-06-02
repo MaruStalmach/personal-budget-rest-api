@@ -1,4 +1,4 @@
-package com.budget.budget_api.transaction;
+package com.budget.budget_api.common.types;
 
 public enum TransactionType {
     INCOME,

@@ -1,7 +1,8 @@
-package com.budget.budget_api.transaction;
+package com.budget.budget_api.controllers;
 
-import com.budget.budget_api.transaction.dto.TransactionRequest;
-import com.budget.budget_api.transaction.dto.TransactionResponse;
+import com.budget.budget_api.dtos.requests.TransactionRequest;
+import com.budget.budget_api.dtos.responses.TransactionResponse;
+import com.budget.budget_api.services.TransactionService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

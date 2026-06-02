@@ -1,6 +1,6 @@
-package com.budget.budget_api.transaction.dto;
+package com.budget.budget_api.dtos.requests;
 
-import com.budget.budget_api.transaction.TransactionType;
+import com.budget.budget_api.common.types.TransactionType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

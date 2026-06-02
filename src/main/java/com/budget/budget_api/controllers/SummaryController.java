@@ -1,6 +1,7 @@
-package com.budget.budget_api.summary;
+package com.budget.budget_api.controllers;
 
-import com.budget.budget_api.summary.dto.SummaryResponse;
+import com.budget.budget_api.dtos.responses.SummaryResponse;
+import com.budget.budget_api.services.SummaryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
