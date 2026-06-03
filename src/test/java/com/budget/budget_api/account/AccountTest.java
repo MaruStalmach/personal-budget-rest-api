@@ -40,4 +40,14 @@ class AccountTest {
                 () -> account.applyTransaction(TransactionType.EXPENSE, BigDecimal.ZERO));
     }
 
+    @Test
+    void revertTransaction_Income() {
+
+    }
+
+    @Test
+    void revertTransaction_Expense(){
+
+    }
+
 }
