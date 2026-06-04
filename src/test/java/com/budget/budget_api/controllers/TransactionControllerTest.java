@@ -1,7 +1,8 @@
-package com.budget.budget_api.integration;
+package com.budget.budget_api.controllers;
 
 import com.budget.budget_api.common.types.TransactionType;
 import com.budget.budget_api.entities.Account;
+import com.budget.budget_api.integration.AbstractIntegrationTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;

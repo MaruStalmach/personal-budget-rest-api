@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-abstract class AbstractIntegrationTest {
+public abstract class AbstractIntegrationTest {
 
     protected static final long NON_EXISTENT_ID = 999_999L;
 

@@ -1,13 +1,15 @@
-package com.budget.budget_api.integration;
+package com.budget.budget_api.controllers;
 
 import com.budget.budget_api.common.types.TransactionType;
 import com.budget.budget_api.entities.Account;
+import com.budget.budget_api.integration.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
