@@ -23,7 +23,7 @@ The initial prompt:
     I will have separate unit tests for services and entities. Make sure everything 
     is seamless and works well and is done according to modern standards."
 
-after that adding exception handling and adding extra tests was done manually.
+after that adding extra tests cases and fixing what was roposed by AI was done manually.
 
 ## Containerization in Docker
 The Dockerfile, docker-compose.yml, .dockerignore, and .gitattributes were produced with AI assistance, 
