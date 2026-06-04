@@ -59,29 +59,4 @@ public class SummaryService {
     }
 
 
-
-//        //TODO: add error handling for missing acc
-//        List<Transaction> transactions = transactionRepository.findByAccountId(accountId);
-//
-//        //calculates total income for a specified account
-//        BigDecimal totalIncome = transactions.stream()
-//                .filter(transaction -> transaction.getType() == TransactionType.INCOME)
-//                .map(Transaction::getAmount)
-//                .reduce(BigDecimal.ZERO, BigDecimal::add);
-//
-//        //calculates total expenses for a specified account
-//        BigDecimal totalExpenses = transactions.stream()
-//                .filter(transaction -> transaction.getType() == TransactionType.EXPENSE)
-//                .map(Transaction::getAmount)
-//                .reduce(BigDecimal.ZERO, BigDecimal::add);
-//
-//        //calculates total expenses per category present
-//        Map<String, BigDecimal> expensesByCategory = transactions.stream()
-//                .filter(transaction -> transaction.getType() == TransactionType.EXPENSE)
-//                .collect(Collectors.groupingBy(Transaction::getCategory,
-//                        Collectors.reducing(BigDecimal.ZERO, Transaction::getAmount, BigDecimal::add)
-//                ));
-//
-//        return new SummaryResponse(totalIncome, totalExpenses, expensesByCategory);
-//    }
 }
