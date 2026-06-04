@@ -9,7 +9,6 @@ import com.budget.budget_api.entities.Account;
 import com.budget.budget_api.entities.Transaction;
 import com.budget.budget_api.repositories.AccountRepository;
 import com.budget.budget_api.repositories.TransactionRepository;
-import com.budget.budget_api.services.TransactionService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,11 +38,11 @@ class TransactionServiceTest {
     @InjectMocks
     private TransactionService transactionService;
 
-    private Account account(Long id, String balance) {
+    private Account account() {
         Account account = new Account();
-        account.setId(id);
-        account.setName("account " + id);
-        account.setBalance(new BigDecimal(balance));
+        account.setId(1L);
+        account.setName("account " + (Long) 1L);
+        account.setBalance(new BigDecimal("100.00"));
         return account;
     }
 
@@ -62,7 +61,7 @@ class TransactionServiceTest {
     @Test
     @DisplayName("getAllTransactions maps every entity to a response")
     void getAllTransactions_mapsAll() {
-        Account acc = account(1L, "100.00");
+        Account acc = account();
         when(transactionRepository.findAll()).thenReturn(List.of(
                 transaction(1L, acc, "10.00", TransactionType.INCOME, "Salary"),
                 transaction(2L, acc, "20.00", TransactionType.EXPENSE, "Food")
@@ -71,13 +70,13 @@ class TransactionServiceTest {
         List<TransactionResponse> result = transactionService.getAllTransactions();
 
         assertThat(result).hasSize(2);
-        assertThat(result.getFirst().accountId()).isEqualTo(1L);
+        assertThat(result.get(0).accountId()).isEqualTo(1L);
     }
 
     @Test
     @DisplayName("getTransactionById returns the mapped transaction when it exists")
     void getTransactionById_found() {
-        Account acc = account(1L, "100.00");
+        Account acc = account();
         when(transactionRepository.findById(5L))
                 .thenReturn(Optional.of(transaction(5L, acc, "30.00", TransactionType.EXPENSE, "Food")));
 
@@ -100,7 +99,7 @@ class TransactionServiceTest {
     @Test
     @DisplayName("getTransactionsByAccountId returns mapped transactions for an existing account")
     void getTransactionsByAccountId_found() {
-        Account acc = account(1L, "100.00");
+        Account acc = account();
         when(accountRepository.existsById(1L)).thenReturn(true);
         when(transactionRepository.findByAccountId(1L)).thenReturn(List.of(
                 transaction(1L, acc, "10.00", TransactionType.INCOME, "Salary")
@@ -109,7 +108,7 @@ class TransactionServiceTest {
         List<TransactionResponse> result = transactionService.getTransactionsByAccountId(1L);
 
         assertThat(result).hasSize(1);
-        assertThat(result.getFirst().accountId()).isEqualTo(1L);
+        assertThat(result.get(0).accountId()).isEqualTo(1L);
     }
 
     @Test
@@ -125,7 +124,7 @@ class TransactionServiceTest {
     @Test
     @DisplayName("getFilteredTransactions delegates to the repository and maps the result")
     void getFilteredTransactions_maps() {
-        Account acc = account(1L, "100.00");
+        Account acc = account();
         when(transactionRepository.findFilteredTransactions(any(), any(), any()))
                 .thenReturn(List.of(transaction(1L, acc, "20.00", TransactionType.EXPENSE, "Food")));
 
@@ -138,7 +137,7 @@ class TransactionServiceTest {
     @Test
     @DisplayName("createNewTransaction saves the transaction and updates the account balance")
     void createNewTransaction_success() {
-        Account acc = account(1L, "100.00");
+        Account acc = account();
         TransactionRequest request =
                 new TransactionRequest(1L, new BigDecimal("50.00"), TransactionType.INCOME, "Salary", "bonus");
         Transaction saved = transaction(10L, acc, "50.00", TransactionType.INCOME, "Salary");
@@ -170,7 +169,7 @@ class TransactionServiceTest {
     @Test
     @DisplayName("createNewTransaction propagates InvalidTransactionException for a non-positive amount")
     void createNewTransaction_invalidAmount() {
-        Account acc = account(1L, "100.00");
+        Account acc = account();
         TransactionRequest request =
                 new TransactionRequest(1L, BigDecimal.ZERO, TransactionType.EXPENSE, "Food", "desc");
         when(accountRepository.findById(1L)).thenReturn(Optional.of(acc));
@@ -183,7 +182,7 @@ class TransactionServiceTest {
     @Test
     @DisplayName("deleteTransaction reverts the balance, saves the account, and deletes the transaction")
     void deleteTransaction_success() {
-        Account acc = account(1L, "100.00");
+        Account acc = account();
         Transaction txn = transaction(5L, acc, "30.00", TransactionType.EXPENSE, "Food");
         when(transactionRepository.findById(5L)).thenReturn(Optional.of(txn));
 
