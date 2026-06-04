@@ -22,8 +22,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     List<Object[]> sumAmountByCategory(@Param("accountId") Long accountId, @Param("type") TransactionType type);
 
     @Query("SELECT t FROM Transaction t WHERE " +
-            "(:category IS NULL OR t.category = :category) AND " +
-            "(:fromDate IS NULL OR t.transactionTime >= :fromDate) AND " +
-            "(:toDate IS NULL OR t.transactionTime <= :toDate)")
+            "(CAST(:category as string) IS NULL OR t.category = :category) AND " +
+            "(CAST(:fromDate as timestamp ) IS NULL OR t.transactionTime >= :fromDate) AND " +
+            "(CAST(:toDate as timestamp) IS NULL OR t.transactionTime <= :toDate)")
     List<Transaction> findFilteredTransactions(@Param("fromDate") LocalDateTime fromDate, @Param("toDate") LocalDateTime toDate, @Param("category") String category);
 }

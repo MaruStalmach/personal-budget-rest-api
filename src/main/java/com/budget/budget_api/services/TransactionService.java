@@ -50,10 +50,10 @@ public class TransactionService {
     }
 
     public List<TransactionResponse> getTransactionsByAccountId(Long accountId) {
-        //TODO: handle missing acc
-
+        if (!accountRepository.existsById(accountId)) {
+            throw new ResourceNotFoundException("account with id " + accountId + " not found");
+        }
         List<Transaction> transactions = transactionRepository.findByAccountId(accountId);
-
         return transactions.stream().map(this::mapToResponse).toList();
     }
 

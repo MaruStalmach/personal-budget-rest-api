@@ -41,7 +41,7 @@ public class Account {
         if (type == TransactionType.INCOME) {
             this.balance = this.balance.add(amount);
         } else {
-            //TODO: handle case where balance is negative (to add or not to add)
+            //the budget tracker records overspending, so expenses are allowed to take the balance negative
             this.balance = this.balance.subtract(amount);
         }
     }

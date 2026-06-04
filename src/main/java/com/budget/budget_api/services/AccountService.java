@@ -21,10 +21,11 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
-
     private AccountResponse mapToResponse(Account account) {
         return new AccountResponse(account.getId(), account.getName(), account.getBalance());
     }
+
+
 
     public List<AccountResponse> getAllAccounts() {
         List<Account> accountList = accountRepository.findAll();
