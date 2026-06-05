@@ -21,7 +21,6 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    //TODO: check mapping of the params ?
     @GetMapping
     public ResponseEntity<List<TransactionResponse>> getAllTransactions(
             @RequestParam(required = false) LocalDateTime from,

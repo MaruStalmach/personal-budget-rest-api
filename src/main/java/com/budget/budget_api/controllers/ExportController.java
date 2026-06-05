@@ -1,12 +1,12 @@
 package com.budget.budget_api.controllers;
 
 import com.budget.budget_api.dtos.responses.TransactionResponse;
-import com.budget.budget_api.entities.Transaction;
+
 import com.budget.budget_api.services.TransactionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;

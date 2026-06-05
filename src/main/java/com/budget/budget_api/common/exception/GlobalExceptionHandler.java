@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
     }
 
 
-    // 404 ---------------------------------------------------------------------
+    // 404
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFoundException ex,
@@ -49,14 +49,14 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.NOT_FOUND, "the requested resource was not found", request.getRequestURI());
     }
 
-    // 409 ---------------------------------------------------------------------
+    // 409
 
     @ExceptionHandler({AccountHasTransactionsException.class, DuplicateResourceException.class})
     public ResponseEntity<ErrorResponse> handleConflict(RuntimeException ex, HttpServletRequest request) {
         return buildErrorResponse(HttpStatus.CONFLICT, ex.getMessage(), request.getRequestURI());
     }
 
-    // 400 ---------------------------------------------------------------------
+    // 400
 
     @ExceptionHandler(InvalidTransactionException.class)
     public ResponseEntity<ErrorResponse> handleInvalidTransaction(InvalidTransactionException ex,
@@ -88,7 +88,7 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, "malformed or unreadable request body", request.getRequestURI());
     }
 
-    // 500 ---------------------------------------------------------------------
+    // 500
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUncaught(Exception ex, HttpServletRequest request) {

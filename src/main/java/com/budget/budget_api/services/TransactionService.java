@@ -16,7 +16,6 @@ import java.util.List;
 @Service
 public class TransactionService {
 
-    // extends JpaRepo -> specific data extraction
     private final TransactionRepository transactionRepository;
     private final AccountRepository accountRepository;
 
