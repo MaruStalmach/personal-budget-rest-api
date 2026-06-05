@@ -91,6 +91,7 @@ Base URL: `http://localhost:8080`
 | `GET`    | `/accounts/{id}` | Get one account with its current balance      | 200     |
 | `POST`   | `/accounts`      | Create an account (balance starts at 0)       | 201     |
 | `DELETE` | `/accounts/{id}` | Delete an account (only if it has no transactions) | 204 |
+| `GET`    | `/accounts/{id}/transactions/export` | Export the account's transactions as a downloadable CSV file | 200 |
 
 ### Transactions
 
@@ -185,11 +186,23 @@ curl http://localhost:8080/accounts/1/summary
 
 # Delete a transaction (balance reverts)
 curl -X DELETE http://localhost:8080/transactions/1
+
+# Export an account's transactions to CSV (downloads a file)
+curl -o transactions.csv "http://localhost:8080/accounts/1/transactions/export"
 ```
 
 **Transaction fields:** `accountId` (required), `amount` (required, must be > 0), `type` (`INCOME` or `EXPENSE`, required), `category` (required), `description` (optional). The transaction time is set by the server.
 
 ---
+
+## Interactive API documentation
+
+When the application is running, interactive API documentation (Swagger UI) is available at:
+`http://localhost:8080/swagger-ui.html`
+It lists every endpoint with its parameters and request/response schemas, and lets you send
+requests directly from the browser. The raw OpenAPI specification is served at
+`http://localhost:8080/v3/api-docs`.
+
 
 ## Project structure
 
