@@ -21,8 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class SummaryControllerTest extends AbstractIntegrationTest {
 
     private BigDecimal decimalAt(JsonNode node, String field) {
-        // asString() gives the textual number (Jackson 3 renamed asText() -> asString()),
-        // so BigDecimal comparison stays scale-independent.
         return new BigDecimal(node.get(field).asString());
     }
 

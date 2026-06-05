@@ -18,8 +18,6 @@ class AccountTest {
     @BeforeEach
     void setUp() {
         account = new Account();
-        // Since every test uses the exact same starting balance,
-        // we can move it here to keep the tests DRY.
         account.setBalance(new BigDecimal("4200.00"));
     }
 
