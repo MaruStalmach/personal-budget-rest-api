@@ -107,16 +107,57 @@ Base URL: `http://localhost:8080`
 | ------ | -------------------------- | ---------------------------------------------------- | ------- |
 | `GET`  | `/accounts/{id}/summary`   | Total income, total expenses, and expenses by category | 200  |
 
+## Error handling
+
+All errors are returned with a meaningful HTTP status **and** a consistent JSON body, so a
+client can branch on the status code first and read structured detail from the body. The
+envelope is the same for every error:
+
+```json
+{
+  "timestamp": "2026-06-04T13:22:05.123",
+  "status": 404,
+  "error": "Not Found",
+  "message": "account with a given id cannot be found",
+  "path": "/accounts/999"
+}
+```
+
+For input-validation failures the body additionally includes a `fieldErrors` map, so the
+client can show each message next to the relevant field:
+
+```json
+{
+  "timestamp": "2026-06-04T13:22:05.123",
+  "status": 400,
+  "error": "Bad Request",
+  "message": "validation failed",
+  "path": "/transactions",
+  "fieldErrors": {
+    "amount": "must be greater than 0",
+    "category": "must not be blank"
+  }
+}
+```
+
+`fieldErrors` is present only for validation errors; it is omitted from all other responses.
+
 ### Status codes
 
-| Code | Meaning                                                              |
-| ---- | ------------------------------------------------------------------- |
-| 200  | Successful read                                                     |
-| 201  | Resource created                                                    |
-| 204  | Resource deleted (no body returned)                                 |
-| 400  | Invalid input (validation failure or non-positive transaction amount) |
-| 404  | Account or transaction not found                                    |
-| 409  | Conflict (e.g. deleting an account that still has transactions)     |
+| Code | When it is returned                                                                 |
+| ---- | ----------------------------------------------------------------------------------- |
+| 200  | Successful read                                                                     |
+| 201  | Resource created                                                                    |
+| 204  | Resource deleted (no body)                                                          |
+| 400  | Invalid input: validation failure, a non-positive transaction amount, an unparseable request body, or a malformed query parameter (e.g. a bad `from`/`to` date) |
+| 404  | Account or transaction not found, or an unknown path                                |
+| 409  | Conflict: deleting an account that still has transactions, or creating an account with a name that already exists |
+| 500  | Unexpected server error (the cause is logged server-side; the client receives a generic message) |
+
+All error responses are produced by a single `@RestControllerAdvice`
+(`GlobalExceptionHandler`), so error formatting is centralized and consistent across every
+endpoint.
+
 
 ### Examples
 
