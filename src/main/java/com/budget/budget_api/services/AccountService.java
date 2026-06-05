@@ -1,5 +1,6 @@
 package com.budget.budget_api.services;
 
+import com.budget.budget_api.common.exception.DuplicateResourceException;
 import com.budget.budget_api.entities.Account;
 import com.budget.budget_api.repositories.AccountRepository;
 import com.budget.budget_api.dtos.requests.AccountRequest;
@@ -39,6 +40,9 @@ public class AccountService {
     }
 
     public AccountResponse createNewAccount(AccountRequest request) {
+        if (accountRepository.existsByName(request.name())) {
+            throw new DuplicateResourceException("account with a given name already exists");
+        }
         Account newAccount = new Account();
         newAccount.setName(request.name());
         newAccount.setBalance(BigDecimal.ZERO);
